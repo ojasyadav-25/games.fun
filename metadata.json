@@ -1,0 +1,6 @@
+{
+  "name": "games.fun",
+  "description": "A collection of fun and challenging browser games. Test your reflexes and skills with games like Tap Trap, Perfect Circle, and Potato Clicker.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
