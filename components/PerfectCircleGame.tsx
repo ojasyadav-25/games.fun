@@ -55,33 +55,30 @@ const PerfectCircleGame: React.FC = () => {
      redrawCanvas(points, dotColor, center);
   }, [points, dotColor, center, redrawCanvas]);
 
-  useEffect(() => {
+  const resizeCanvas = useCallback(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    const container = containerRef.current;
+    if (!canvas || !container) return;
 
-    const resizeObserver = new ResizeObserver(entries => {
-      requestAnimationFrame(() => {
-        const currentCanvas = canvasRef.current;
-        if (!currentCanvas) return;
-        for (let entry of entries) {
-            const { width, height } = entry.contentRect;
-            if (currentCanvas.width !== width || currentCanvas.height !== height) {
-              currentCanvas.width = width;
-              currentCanvas.height = height;
-              setCenter({ x: width / 2, y: height / 2 });
-            }
-        }
-      });
-    });
+    const width = container.clientWidth;
+    const height = container.clientHeight;
 
-    if (containerRef.current) {
-        resizeObserver.observe(containerRef.current);
+    if (canvas.width !== width || canvas.height !== height) {
+      canvas.width = width;
+      canvas.height = height;
+      setCenter({ x: width / 2, y: height / 2 });
     }
-
-    return () => {
-        resizeObserver.disconnect();
-    };
   }, []);
+
+  useEffect(() => {
+    resizeCanvas();
+    const timer = setTimeout(resizeCanvas, 100);
+    window.addEventListener("resize", resizeCanvas);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("resize", resizeCanvas);
+    };
+  }, [resizeCanvas]);
 
 
   const evaluate = () => {

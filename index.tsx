@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom/client';
 // Use namespace import to fix "no exported member" errors in some environments
 import * as ReactRouterDOM from 'react-router-dom';
 import App from './components/App';
+import './index.css';
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
